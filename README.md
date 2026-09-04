@@ -1009,7 +1009,7 @@ GitHub API를 사용하는 프로젝트이므로 인터넷 연결이 필요합�
 
 ### 13.2 Mobile
 
-![Mobile](images/mobile.png)
+![Mobile](images/mobile.jpg)
 
 모바일 화면에서는 햄버거 메뉴를 사용하고 콘텐츠의 크기와 간격을 조정하여 작은 화면에서도 사용할 수 있도록 구성했습니다.
 
@@ -1017,6 +1017,6 @@ GitHub API를 사용하는 프로젝트이므로 인터넷 연결이 필요합�
 
 ### 13.3 Dark Mode
 
-![Dark Mode](images/dark-mode.png)
+![Tablet](images/Tablet.png)
 
-다크모드에서는 CSS 변수를 변경하여 배경색과 글자색 등의 전체적인 색상 테마가 변경됩니다.
+태블릿 화면에서도 정상작동 합니다.
