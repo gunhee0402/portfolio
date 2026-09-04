@@ -1001,7 +1001,7 @@ GitHub API를 사용하는 프로젝트이므로 인터넷 연결이 필요합�
 
 ### 13.1 Desktop
 
-![Desktop](images/desktop.png)
+![Desktop](images/Desktop.png)
 
 데스크톱 화면에서는 전체 네비게이션 메뉴와 프로젝트 카드가 넓은 화면에 맞게 배치됩니다.
 
@@ -1009,13 +1009,13 @@ GitHub API를 사용하는 프로젝트이므로 인터넷 연결이 필요합�
 
 ### 13.2 Mobile
 
-![Mobile](images/mobile.jpg)
+![Mobile](images/Mobile.jpg)
 
 모바일 화면에서는 햄버거 메뉴를 사용하고 콘텐츠의 크기와 간격을 조정하여 작은 화면에서도 사용할 수 있도록 구성했습니다.
 
 ---
 
-### 13.3 Dark Mode
+### 13.3 Tablet
 
 ![Tablet](images/Tablet.png)
 
