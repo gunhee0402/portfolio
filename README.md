@@ -43,7 +43,7 @@ HTML, CSS, JavaScript의 기본 개념을 활용하여 웹페이지의 구조와
 GitHub Pages를 이용하여 웹사이트를 배포했습니다.
 
 **배포 주소:**  
-(https://gunhee0402.github.io/portfolio/)
+ (https://gunhee0402.github.io/portfolio/)
 
 **저장소:**
  (https://github.com/gunhee0402/portfolio)
