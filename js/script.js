@@ -85,6 +85,19 @@ const messageError = document.querySelector("#message-error");
 
 const formMessage = document.querySelector("#form-message");
 
+// 입력할 때 오류 메시지 지우기
+nameInput.addEventListener("input", function () {
+    nameError.textContent = "";
+});
+
+emailInput.addEventListener("input", function () {
+    emailError.textContent = "";
+});
+
+messageInput.addEventListener("input", function () {
+    messageError.textContent = "";
+});
+
 contactForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -219,6 +232,10 @@ async function loadProjects() {
             `https://api.github.com/users/${githubUsername}/repos`
         );
 
+        if (response.status === 403) {
+            throw new Error("GitHub API 요청 한도를 초과했습니다.");
+        }
+
         if (!response.ok) {
             throw new Error("GitHub API 오류");
         }
@@ -238,7 +255,7 @@ async function loadProjects() {
         projectMessage.textContent = "";
     } catch (error) {
         projectMessage.textContent =
-            "프로젝트를 불러오지 못했습니다.";
+            error.message || "프로젝트를 불러오지 못했습니다.";
         retryButton.style.display = "block";
     }
 }
