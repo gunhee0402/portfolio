@@ -1,32 +1,46 @@
+// 상태 관리
+const state = {
+    theme: localStorage.getItem("theme") || "light",
+    menuOpen: false,
+    allRepos: [],
+    selectedLanguage: "all"
+};
+
 // 햄버거 메뉴
 const menuButton = document.querySelector("#menu-button");
 const navMenu = document.querySelector("nav ul");
 
 menuButton.addEventListener("click", function () {
-    navMenu.classList.toggle("active");
+    state.menuOpen = !state.menuOpen;
+
+    navMenu.classList.toggle("active", state.menuOpen);
 });
 
 // 다크모드
 const themeButton = document.querySelector("#theme-button");
 
-themeButton.addEventListener("click", function () {
-    const currentTheme = document.documentElement.getAttribute("data-theme");
-
-    if (currentTheme === "dark") {
-        document.documentElement.removeAttribute("data-theme");
-        localStorage.setItem("theme", "light");
-    } else {
+function renderTheme() {
+    if (state.theme === "dark") {
         document.documentElement.setAttribute("data-theme", "dark");
-        localStorage.setItem("theme", "dark");
+    } else {
+        document.documentElement.removeAttribute("data-theme");
     }
+
+    localStorage.setItem("theme", state.theme);
+}
+
+themeButton.addEventListener("click", function () {
+    if (state.theme === "dark") {
+        state.theme = "light";
+    } else {
+        state.theme = "dark";
+    }
+
+    renderTheme();
 });
 
-// 저장된 테마 불러오기
-const savedTheme = localStorage.getItem("theme");
-
-if (savedTheme === "dark") {
-    document.documentElement.setAttribute("data-theme", "dark");
-}
+// 저장된 테마 적용
+renderTheme();
 
 // 스크롤 시 메뉴 스타일 변경
 const header = document.querySelector("header");
@@ -146,20 +160,20 @@ const projectFilter = document.querySelector("#project-filter");
 
 const githubUsername = "gunhee0402";
 
-let allRepos = [];
-
 // 프로젝트 보여주기
 function renderProjects(repos) {
     projectList.innerHTML = "";
 
     repos.forEach(function (repo) {
+        const { name, description, language, html_url } = repo;
+
         const article = document.createElement("article");
 
         article.innerHTML = `
-            <h3>${repo.name}</h3>
-            <p>${repo.description || "설명이 없습니다."}</p>
-            <p>언어: ${repo.language || "알 수 없음"}</p>
-            <a href="${repo.html_url}" target="_blank">
+            <h3>${name}</h3>
+            <p>${description || "설명이 없습니다."}</p>
+            <p>언어: ${language || "알 수 없음"}</p>
+            <a href="${html_url}" target="_blank">
                 GitHub에서 보기
             </a>
         `;
@@ -181,6 +195,7 @@ function createFilterButtons(repos) {
     });
 
     const allButton = document.createElement("button");
+
     allButton.textContent = "전체";
     allButton.dataset.language = "all";
     allButton.classList.add("active");
@@ -200,7 +215,7 @@ function createFilterButtons(repos) {
 
     filterButtons.forEach(function (button) {
         button.addEventListener("click", function () {
-            const selectedLanguage = button.dataset.language;
+            state.selectedLanguage = button.dataset.language;
 
             filterButtons.forEach(function (button) {
                 button.classList.remove("active");
@@ -208,11 +223,11 @@ function createFilterButtons(repos) {
 
             button.classList.add("active");
 
-            if (selectedLanguage === "all") {
-                renderProjects(allRepos);
+            if (state.selectedLanguage === "all") {
+                renderProjects(state.allRepos);
             } else {
-                const filteredRepos = allRepos.filter(function (repo) {
-                    return repo.language === selectedLanguage;
+                const filteredRepos = state.allRepos.filter(function (repo) {
+                    return repo.language === state.selectedLanguage;
                 });
 
                 renderProjects(filteredRepos);
@@ -247,15 +262,17 @@ async function loadProjects() {
             return;
         }
 
-        allRepos = repos;
+        state.allRepos = repos;
+        state.selectedLanguage = "all";
 
-        createFilterButtons(allRepos);
-        renderProjects(allRepos);
+        createFilterButtons(state.allRepos);
+        renderProjects(state.allRepos);
 
         projectMessage.textContent = "";
     } catch (error) {
         projectMessage.textContent =
             error.message || "프로젝트를 불러오지 못했습니다.";
+
         retryButton.style.display = "block";
     }
 }
