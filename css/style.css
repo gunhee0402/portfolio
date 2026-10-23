@@ -1,8 +1,10 @@
-/* 전체 기본 설정 */
+/* 전체 기본 설정 및 테마 변수 */
 :root {
     --bg-color: #ffffff;
     --text-color: #222222;
     --main-color: #2563eb;
+    --card-border: transparent;
+    --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 /* 다크모드 색상 */
@@ -10,8 +12,11 @@
     --bg-color: #111111;
     --text-color: #eeeeee;
     --main-color: #60a5fa;
+    --card-border: #444444;
+    --card-shadow: none;
 }
 
+/* 범용 선택자 오타 수정 */
 * {
     box-sizing: border-box;
 }
@@ -26,12 +31,105 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
 }
-/* :root → 사이트에서 사용할 공통 색상 저장 */
-/* * → 크기 계산 방식을 통일 */
-/* scroll-behavior → 링크 눌렀을 때 부드럽게 이동 */
-/* body → 여백 제거 + 글꼴 + 배경/글자색 설정 */
 
-/* 첫 화면 */
+/* 상단 메뉴 (기본: 모바일) */
+header {
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-color);
+    z-index: 1000;
+    transition: box-shadow 0.3s;
+}
+
+header.scrolled {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+nav > a {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#theme-button, #menu-button {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--text-color);
+    padding: 4px 8px;
+}
+
+/* 모바일 메뉴: 기본 숨김 */
+nav ul {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 20px;
+    background-color: var(--bg-color);
+    text-align: center;
+    gap: 15px;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+nav ul.active {
+    display: flex;
+    flex-direction: column;
+}
+
+nav ul a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: 0.3s;
+}
+
+nav ul a:hover {
+    color: var(--main-color);
+}
+
+/* 공통 섹션 (기본: 모바일) */
+section {
+    padding: 60px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s, transform 0.6s;
+}
+
+section.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+}
+
+/* 홈 섹션 */
 #home {
     min-height: 80vh;
     display: flex;
@@ -39,16 +137,17 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 40px 20px;
+    opacity: 1;
+    transform: none;
 }
 
 #home h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin-bottom: 15px;
 }
 
 #home p {
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-bottom: 25px;
 }
 
@@ -66,34 +165,41 @@ body {
     transform: translateY(-3px);
 }
 
-/* 섹션 기본 설정 */
-section {
-    padding: 80px 20px;
-    max-width: 1000px;
-    margin: 0 auto;
-    /* → 가운데 정렬. */
+/* 자기소개 (기본: 세로 정렬) */
+.about-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
 }
 
-section h2 {
-    font-size: 2rem;
-    margin-bottom: 30px;
+.about-content img {
+    width: 220px;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 15px;
 }
-/* 기술 목록 */
+
+.about-content > div {
+    width: 100%;
+}
+
+/* 기술 목록 (Grid 반응형) */
 #skills ul {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    /* 이게 반응형 핵심임. 화면이 넓으면 적어놓은게 한줄에 들어가고 좁아지면 자동으로 줄바꿈. */
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 15px;
     padding: 0;
     list-style: none;
 }
 
 #skills li {
-    padding: 25px;
+    padding: 20px;
     text-align: center;
     background-color: var(--bg-color);
+    border: 1px solid var(--card-border);
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--card-shadow);
     transition: 0.3s;
 }
 
@@ -102,17 +208,82 @@ section h2 {
 }
 
 /* 프로젝트 */
+#project-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+#project-filter button {
+    padding: 8px 16px;
+    border: 1px solid #cccccc;
+    border-radius: 20px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#project-filter button.active,
+#project-filter button:hover {
+    background-color: var(--main-color);
+    color: white;
+    border-color: var(--main-color);
+}
+
 #project-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
+    gap: 20px;
+}
+
+#project-list article {
+    padding: 20px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    transition: 0.3s;
+}
+
+#project-list article:hover {
+    transform: translateY(-5px);
+}
+
+#project-list h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+#project-list p {
+    line-height: 1.5;
+}
+
+#project-list a {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--main-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#retry-button {
+    display: none;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--main-color);
+    color: white;
+    cursor: pointer;
 }
 
 /* 연락처 폼 */
 #contact-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     max-width: 600px;
 }
 
@@ -122,11 +293,23 @@ section h2 {
     border: 1px solid #cccccc;
     border-radius: 6px;
     font-size: 1rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+#contact-form input.invalid,
+#contact-form textarea.invalid {
+    border-color: #ef4444;
 }
 
 #contact-form textarea {
-    min-height: 150px;
+    min-height: 120px;
     resize: vertical;
+}
+
+#contact-form small {
+    color: #ef4444;
+    min-height: 18px;
 }
 
 #contact-form button {
@@ -145,7 +328,12 @@ section h2 {
     transform: translateY(-2px);
 }
 
-/* 하단 */
+#form-message {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* 푸터 및 맨 위로 이동 버튼 */
 footer {
     padding: 30px 20px;
     text-align: center;
@@ -154,132 +342,6 @@ footer {
     margin-top: 40px;
 }
 
-/* 모바일 화면 */
-@media (max-width: 767px) {
-    #home h1 {
-        font-size: 2rem;
-    }
-
-    #home p {
-        font-size: 1rem;
-    }
-
-    section {
-        padding: 60px 15px;
-    }
-
-    section h2 {
-        font-size: 1.7rem;
-    }
-}
-/* 태블릿 화면 */
-@media (min-width: 768px) {
-    #home h1 {
-        font-size: 3rem;
-    }
-
-    section {
-        padding: 100px 30px;
-    }
-}
-/* PC 화면 */
-@media (min-width: 1024px) {
-    #home h1 {
-        font-size: 3.5rem;
-    }
-
-    #home p {
-        font-size: 1.3rem;
-    }
-
-    section {
-        padding: 120px 40px;
-    }
-}
-
-/* 상단 메뉴 */
-header {
-    position: sticky;
-    top: 0;
-    background-color: var(--bg-color);
-    z-index: 1000;
-}
-
-nav {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-nav > a {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: var(--text-color);
-    text-decoration: none;
-}
-
-nav ul {
-    display: flex;
-    gap: 25px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-nav ul a {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-nav ul a:hover {
-    color: var(--main-color);
-}
-
-#menu-button {
-    display: none;
-}
-
-/* 모바일 메뉴 */
-@media (max-width: 767px) {
-    nav ul {
-        display: none;
-    }
-
-    #menu-button {
-        display: block;
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-    }
-}
-
-/* 모바일 메뉴 열기 */
-@media (max-width: 767px) {
-    nav ul.active {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        padding: 20px;
-        background-color: var(--bg-color);
-        text-align: center;
-        gap: 15px;
-    }
-}
-
-/* 스크롤했을 때 상단 메뉴 */
-header.scrolled {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* 맨 위로 가기 버튼 */
 #top-button {
     position: fixed;
     right: 20px;
@@ -295,142 +357,60 @@ header.scrolled {
     display: none;
 }
 
-/* 스크롤 애니메이션 */
-section {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: 0.6s;
-}
+/* 모바일 퍼스트: 태블릿 이상 (768px 이상) */
+@media (min-width: 768px) {
+    #menu-button {
+        display: none;
+    }
 
-section.show {
-    opacity: 1;
-    transform: translateY(0);
-}
+    nav ul {
+        display: flex;
+        position: static;
+        flex-direction: row;
+        width: auto;
+        padding: 0;
+        box-shadow: none;
+        gap: 25px;
+    }
 
-#home {
-    opacity: 1;
-    transform: none;
-}
+    #home h1 {
+        font-size: 3rem;
+    }
 
-/* GitHub 프로젝트 카드 */
-#project-list article {
-    padding: 25px;
-    background-color: var(--bg-color);
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    transition: 0.3s;
-}
+    #home p {
+        font-size: 1.2rem;
+    }
 
-#project-list article:hover {
-    transform: translateY(-5px);
-}
+    section {
+        padding: 90px 30px;
+    }
 
-#project-list h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-}
+    section h2 {
+        font-size: 2rem;
+    }
 
-#project-list p {
-    line-height: 1.6;
-}
-
-#project-list a {
-    display: inline-block;
-    margin-top: 10px;
-    color: var(--main-color);
-    text-decoration: none;
-    font-weight: bold;
-}
-
-#project-list a:hover {
-    text-decoration: underline;
-}
-
-/* 다시 불러오기 버튼 */
-#retry-button {
-    display: none;
-    margin-top: 20px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    background-color: var(--main-color);
-    color: white;
-    cursor: pointer;
-}
-
-/* 다크모드 카드 */
-[data-theme="dark"] #skills li,
-[data-theme="dark"] #project-list article {
-    border: 1px solid #444444;
-    box-shadow: none;
-}
-
-/* 폼 오류 메시지 */
-#contact-form small {
-    color: #ef4444;
-    min-height: 18px;
-}
-
-#form-message {
-    font-weight: bold;
-}
-
-/* 프로젝트 필터 */
-#project-filter {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 25px;
-}
-
-#project-filter button {
-    padding: 8px 16px;
-    border: 1px solid #cccccc;
-    border-radius: 20px;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-#project-filter button:hover {
-    background-color: var(--main-color);
-    color: white;
-    border-color: var(--main-color);
-}
-
-#project-filter button.active {
-    background-color: var(--main-color);
-    color: white;
-    border-color: var(--main-color);
-}
-
-/* 자기소개 */
-.about-content {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-}
-
-.about-content img {
-    width: 250px;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 15px;
-}
-
-.about-content > div {
-    flex: 1;
-}
-
-/* 모바일 자기소개 */
-@media (max-width: 767px) {
     .about-content {
-        flex-direction: column;
+        flex-direction: row;
+        gap: 40px;
     }
 
     .about-content img {
-        width: 220px;
-        height: 260px;
+        width: 250px;
+        height: 300px;
+    }
+}
+
+/* 모바일 퍼스트: 데스크톱 (1024px 이상) */
+@media (min-width: 1024px) {
+    #home h1 {
+        font-size: 3.5rem;
+    }
+
+    #home p {
+        font-size: 1.3rem;
+    }
+
+    section {
+        padding: 110px 40px;
     }
 }
